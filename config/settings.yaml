@@ -1,0 +1,31 @@
+zones:
+  - Terminal_1
+  - Terminal_2
+  - Terminal_3
+
+optimization:
+  strategy: "rule_based"   # MVP-1
+  fallback_strategy: "maintain_current"
+
+metrics:
+  occupancy_density:
+    low: 0.3
+    medium: 0.6
+    high: 0.85
+
+  traffic_score:
+    peak_hours: [6, 9, 17, 21]
+
+energy:
+  target_savings_percent: 25
+  max_reduction_per_step_percent: 5
+
+comfort:
+  strict_enforcement: true
+
+alerts:
+  enable: true
+  notify_on:
+    - high_co2
+    - temperature_violation
+    - energy_spike
