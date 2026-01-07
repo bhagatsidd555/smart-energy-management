@@ -39,13 +39,43 @@ if "last_update" not in st.session_state:
 # -----------------------------
 # Simulated Live Data Generator
 # -----------------------------
+# def get_live_data():
+#     return {
+#         "occupancy": random.randint(200, 1200),
+#         "temperature": round(random.uniform(22, 28), 1),
+#         "humidity": round(random.uniform(40, 70), 1),
+#         "co2": random.randint(450, 900),
+#         "energy_kw": round(random.uniform(800, 1500), 2),
+#     }
+
+import random
+
 def get_live_data():
+    occupancy = random.randint(200, 1200)
+
+    # Temperature based on occupancy
+    if occupancy < 400:
+        temperature = round(random.uniform(26, 28), 1)
+        humidity = random.randint(40, 50)
+        co2 = random.randint(400, 600)
+        energy = random.randint(300, 700)
+    elif occupancy < 800:
+        temperature = round(random.uniform(24, 26), 1)
+        humidity = random.randint(45, 55)
+        co2 = random.randint(600, 800)
+        energy = random.randint(700, 1000)
+    else:
+        temperature = round(random.uniform(22, 24), 1)
+        humidity = random.randint(55, 65)
+        co2 = random.randint(800, 1200)
+        energy = random.randint(1000, 1500)
+
     return {
-        "occupancy": random.randint(200, 1200),
-        "temperature": round(random.uniform(22, 28), 1),
-        "humidity": round(random.uniform(40, 70), 1),
-        "co2": random.randint(450, 900),
-        "energy_kw": round(random.uniform(800, 1500), 2),
+        "occupancy": occupancy,
+        "temperature": temperature,
+        "humidity": humidity,
+        "co2": co2,
+        "energy_kw": energy
     }
 
 # -----------------------------
