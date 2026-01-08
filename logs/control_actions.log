@@ -1,0 +1,141 @@
+2026-01-08 12:31:45,171 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:31:48,231 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:31:51,253 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:31:54,285 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:31:57,310 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:32:00,380 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:32:03,407 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:32:06,449 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:32:09,472 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:32:12,541 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:32:15,561 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:32:18,585 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:32:21,606 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:32:24,676 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:32:27,697 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:32:51,851 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:32:54,930 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:32:57,952 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:33:01,038 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:33:04,052 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:33:07,096 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:33:10,115 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:33:13,138 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:33:16,161 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:33:19,202 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:33:22,223 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:33:25,245 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:33:28,263 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:33:31,313 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:33:34,334 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:35:51,703 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:35:54,751 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:35:57,777 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:00,804 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:03,828 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:06,874 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:36:09,897 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:12,923 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:15,958 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:19,019 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:36:21,480 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:36:23,093 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:36:24,843 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:36:27,888 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:36:30,908 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:33,922 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:36,943 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:39,992 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:36:43,015 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:46,039 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:49,061 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:52,103 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:36:55,121 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:36:58,138 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:37:01,159 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:37:04,203 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:37:07,228 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:40:38,143 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:40:41,251 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:40:44,283 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:40:47,310 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:40:50,510 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:40:53,553 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:40:56,572 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:40:59,593 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:41:02,613 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:41:05,647 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:41:08,669 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:41:11,686 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:41:14,707 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 12:41:17,749 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 12:41:20,768 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:31:31,586 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:31:34,671 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:31:37,704 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:31:40,731 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:31:43,764 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:31:46,839 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:31:49,867 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:31:52,892 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:31:55,911 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:31:58,991 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:32:02,014 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:05,041 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:08,087 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:11,179 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:32:14,199 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:15,587 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:32:17,451 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:32:20,509 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:32:23,539 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:26,559 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:29,590 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:32,668 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:32:35,685 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:38,706 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:41,738 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:44,812 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:32:47,843 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:50,864 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:53,896 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 13:32:56,970 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 13:32:59,987 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:40:40,856 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:40:43,171 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:40:45,689 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:40:47,260 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:40:50,325 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:40:53,357 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:40:56,374 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:40:59,394 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:41:02,450 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:41:05,465 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:41:08,480 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:41:11,496 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:41:14,549 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:41:17,567 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:41:20,583 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:41:23,599 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:41:26,649 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:41:29,668 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:42:33,432 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:42:36,491 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:42:39,513 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:42:42,535 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:42:45,545 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:42:47,577 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:42:50,640 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:42:53,661 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:42:56,674 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:42:59,699 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:43:02,740 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:43:05,756 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:43:08,769 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:43:11,784 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:43:14,835 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:43:17,871 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:43:20,894 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:43:23,945 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation
+2026-01-08 15:43:26,997 - BMS ACTION EXECUTED | Zone: T1 | Action: OPTIMIZE_INCREMENTALLY
+2026-01-08 15:43:30,021 - FALLBACK ACTIVATED | Zone: T1 | Reason: Safety constraint violation

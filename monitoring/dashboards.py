@@ -1,155 +1,130 @@
-import os
-import sys
-import random
-import time
+"""
+Live Monitoring Dashboard (MVP-2)
+
+Responsibilities:
+- Display real-time KPIs
+- Show AI decisions & control status
+- Display alerts
+- Stream CSV data as live feed
+"""
 
 import streamlit as st
+import time
+import pandas as pd
 
-# -------------------------------------------------
-# Fix PYTHONPATH so internal modules work correctly
-# -------------------------------------------------
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if PROJECT_ROOT not in sys.path:
-    sys.path.append(PROJECT_ROOT)
-
-from models.optimization.decision_engine import generate_recommendation
 from monitoring.energy_metrics import calculate_energy_metrics
 from monitoring.comfort_metrics import evaluate_comfort_metrics
 from monitoring.alerts import generate_alerts
-from human_in_loop.approval_logic import approve_action, reject_action
-from human_in_loop.audit_logger import log_decision
 
-# -----------------------------
-# Streamlit Page Config
-# -----------------------------
+from models.optimization.decision_engine import generate_decision
+from control.simulation import execute_control
+
+
+# -------------------------------------------------
+# PAGE CONFIG
+# -------------------------------------------------
 st.set_page_config(
-    page_title="Smart Energy Management ",
+    page_title="Smart Energy Management System – MVP 2",
     layout="wide"
 )
 
-st.title("✈️ Smart Energy Management System – MVP 1")
-st.caption("Real-time AI-driven Decision Support (Human-in-the-loop)")
+st.title("✈️ Smart Energy Management System")
+st.caption("Real-time AI-driven Automated Control (CSV Live Simulation)")
 
-# -----------------------------
-# Session State Init (IMPORTANT)
-# -----------------------------
-if "last_update" not in st.session_state:
-    st.session_state.last_update = time.time()
+AUTO_MODE = st.toggle("🔄 Enable Auto Control", value=True)
 
-# -----------------------------
-# Simulated Live Data Generator
-# -----------------------------
-# def get_live_data():
-#     return {
-#         "occupancy": random.randint(200, 1200),
-#         "temperature": round(random.uniform(22, 28), 1),
-#         "humidity": round(random.uniform(40, 70), 1),
-#         "co2": random.randint(450, 900),
-#         "energy_kw": round(random.uniform(800, 1500), 2),
-#     }
+placeholder = st.empty()
 
-import random
 
-def get_live_data():
-    occupancy = random.randint(200, 1200)
+# -------------------------------------------------
+# LOAD CSV DATA (CACHED)
+# -------------------------------------------------
+@st.cache_data
+def load_csv_data():
+    return pd.read_csv("data/processed/energy_training.csv")
 
-    # Temperature based on occupancy
-    if occupancy < 400:
-        temperature = round(random.uniform(26, 28), 1)
-        humidity = random.randint(40, 50)
-        co2 = random.randint(400, 600)
-        energy = random.randint(300, 700)
-    elif occupancy < 800:
-        temperature = round(random.uniform(24, 26), 1)
-        humidity = random.randint(45, 55)
-        co2 = random.randint(600, 800)
-        energy = random.randint(700, 1000)
-    else:
-        temperature = round(random.uniform(22, 24), 1)
-        humidity = random.randint(55, 65)
-        co2 = random.randint(800, 1200)
-        energy = random.randint(1000, 1500)
 
+csv_data = load_csv_data()
+
+
+# -------------------------------------------------
+# FEATURE EXTRACTION FROM CSV
+# -------------------------------------------------
+def extract_features_from_row(row):
     return {
-        "occupancy": occupancy,
-        "temperature": temperature,
-        "humidity": humidity,
-        "co2": co2,
-        "energy_kw": energy
+        "occupancy_density": row["occupancy_density"],
+        "traffic_score": row["traffic_score"],
+        "weather_load": row["weather_load"],
+        "terminal_load_index": row["terminal_load_index"],
+        "co2": int(400 + row["traffic_score"] * 800),
+        "temperature": round(24 + row["weather_load"], 1),
+        "humidity": 55   # ✅ REQUIRED by safety_constraints
     }
 
-# -----------------------------
-# Auto-refresh every 3 seconds
-# (Streamlit-safe replacement for while True)
-# -----------------------------
-if time.time() - st.session_state.last_update > 3:
-    st.session_state.last_update = time.time()
-    st.rerun()
 
-# -----------------------------
-# Generate Live Snapshot
-# -----------------------------
-data = get_live_data()
 
-recommendation = generate_recommendation(data)
 
-energy_kpi = calculate_energy_metrics(data["energy_kw"])
-comfort_status = evaluate_comfort_metrics(
-    data["temperature"],
-    data["humidity"]
-)
-alerts = generate_alerts(data)
+def extract_live_data_from_row(row):
+    return {
+        "occupancy": int(row["occupancy_density"] * 5000),
+        "temperature": round(24 + row["weather_load"], 1),
+        "humidity": 55,
+        "energy_kw": round(row["energy_kw"], 2),
+        "zone": "T1"
+    }
 
-# -----------------------------
-# Dashboard Layout
-# -----------------------------
-col1, col2, col3 = st.columns(3)
-col1.metric("👥 Occupancy", data["occupancy"])
-col2.metric("🌡️ Temperature (°C)", data["temperature"])
-col3.metric("🫁 CO₂ (ppm)", data["co2"])
 
-st.divider()
+# -------------------------------------------------
+# DASHBOARD RENDER FUNCTION
+# -------------------------------------------------
+def display_dashboard(data: dict, features: dict):
+    decision = generate_decision(features)
 
-col4, col5, col6 = st.columns(3)
-col4.metric("⚡ Energy (kW)", data["energy_kw"])
-col5.metric(
-    "💰 Estimated Savings (%)",
-    energy_kpi["estimated_savings_percent"]
-)
-col6.metric("🙂 Comfort Status", comfort_status["overall_comfort"])
+    with placeholder.container():
+        col1, col2, col3 = st.columns(3)
+        col1.metric("👥 Occupancy", data["occupancy"])
+        col2.metric("🌡️ Temperature (°C)", data["temperature"])
+        st.divider()
 
-st.divider()
+        energy_kpi = calculate_energy_metrics(data["energy_kw"])
+        comfort = evaluate_comfort_metrics(
+            data["temperature"],
+            data["humidity"]
+        )
 
-st.subheader("🤖 AI Recommendation")
-st.info(f"{recommendation['action']} — {recommendation['reason']}")
+        col4, col5, col6 = st.columns(3)
+        col4.metric("⚡ Energy (kW)", data["energy_kw"])
+        col5.metric(
+            "💰 Estimated Savings (%)",
+            energy_kpi["estimated_savings_percent"]
+        )
+        col6.metric("🙂 Comfort Status", comfort["overall_comfort"])
 
-# -----------------------------
-# Human-in-the-loop Actions
-# -----------------------------
-decision_key = f"{data['occupancy']}_{data['energy_kw']}"
+        st.divider()
 
-colA, colB = st.columns(2)
+        st.subheader("🤖 AI Decision")
+        st.info(f"{decision['action']} — {decision['reason']}")
 
-if colA.button("✅ Approve", key=f"approve_{decision_key}"):
-    decision = approve_action(
-        recommendation["action"],
-        recommendation["reason"]
-    )
-    log_decision(decision)
-    st.success("Action Approved & Logged")
+        if AUTO_MODE:
+            result = execute_control(decision, data["zone"])
+            st.success(f"Control Status: {result['status']}")
+        else:
+            st.warning("Auto control disabled (Manual review mode)")
 
-if colB.button("❌ Reject", key=f"reject_{decision_key}"):
-    decision = reject_action(
-        recommendation["action"],
-        recommendation["reason"]
-    )
-    log_decision(decision)
-    st.warning("Action Rejected & Logged")
+        alerts = generate_alerts(data)
+        if alerts:
+            st.subheader("🚨 Alerts")
+            for alert in alerts:
+                st.error(alert)
 
-# -----------------------------
-# Alerts Section
-# -----------------------------
-if alerts:
-    st.subheader("🚨 Alerts")
-    for alert in alerts:
-        st.error(alert)
+
+# -------------------------------------------------
+# CSV → LIVE STREAM LOOP
+# -------------------------------------------------
+for _, row in csv_data.iterrows():
+    live_data = extract_live_data_from_row(row)
+    features = extract_features_from_row(row)
+
+    display_dashboard(live_data, features)
+
+    time.sleep(3)
