@@ -2,129 +2,193 @@
 Live Monitoring Dashboard (MVP-2)
 
 Responsibilities:
-- Display real-time KPIs
-- Show AI decisions & control status
-- Display alerts
-- Stream CSV data as live feed
+- Load live data from secured CSV APIs
+- Run inference using pre-trained models
+- Display KPIs, AI decisions, alerts
+- Auto-refresh safely (Streamlit-safe)
 """
 
-import streamlit as st
+# =================================================
+# ABSOLUTE PROJECT ROOT FIX (CRITICAL)
+# =================================================
+import os
+import sys
+from dotenv import load_dotenv
+
+CURRENT_FILE = os.path.abspath(__file__)
+PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_FILE, "../../"))
+
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
+# Load .env explicitly (Streamlit does NOT auto-load)
+load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
+
+print("✅ PROJECT ROOT:", PROJECT_ROOT)
+
+# =================================================
+# IMPORTS
+# =================================================
 import time
+import streamlit as st
 import pandas as pd
 
+from ingestion.api_loader import load_csv_from_api
+from models.energy_forecast.predict import load_model
+from models.optimization.decision_engine import generate_decision
 from monitoring.energy_metrics import calculate_energy_metrics
 from monitoring.comfort_metrics import evaluate_comfort_metrics
 from monitoring.alerts import generate_alerts
 
-from models.optimization.decision_engine import generate_decision
-from control.simulation import execute_control
-
-
-# -------------------------------------------------
+# =================================================
 # PAGE CONFIG
-# -------------------------------------------------
+# =================================================
 st.set_page_config(
     page_title="Smart Energy Management System – MVP 2",
     layout="wide"
 )
 
 st.title("✈️ Smart Energy Management System")
-st.caption("Real-time AI-driven Automated Control (CSV Live Simulation)")
+st.caption("Real-time AI-driven Automated Control (API Mode)")
 
-AUTO_MODE = st.toggle("🔄 Enable Auto Control", value=True)
+# =================================================
+# ENV CONFIG
+# =================================================
+ENERGY_API_URL = os.getenv("ENERGY_API_URL")
+API_KEY = os.getenv("API_KEY")  # optional
 
-placeholder = st.empty()
+if not ENERGY_API_URL:
+    st.error("❌ ENERGY_API_URL not set in .env")
+    st.stop()
 
+# =================================================
+# LOAD MODEL (CACHED)
+# =================================================
+@st.cache_resource
+def load_energy_model():
+    return load_model()
 
-# -------------------------------------------------
-# LOAD CSV DATA (CACHED)
-# -------------------------------------------------
-@st.cache_data
-def load_csv_data():
-    return pd.read_csv("data/processed/energy_training.csv")
+model = load_energy_model()
 
+# =================================================
+# LOAD API DATA (SHORT CACHE)
+# =================================================
+@st.cache_data(ttl=30)
+def load_live_data():
+    return load_csv_from_api(
+        api_url=ENERGY_API_URL,
+        api_key=API_KEY
+    )
 
-csv_data = load_csv_data()
+df = load_live_data()
 
+if df is None or df.empty:
+    st.warning("⚠️ No data received from API")
+    st.stop()
 
-# -------------------------------------------------
-# FEATURE EXTRACTION FROM CSV
-# -------------------------------------------------
-def extract_features_from_row(row):
+# =================================================
+# FEATURE ENGINEERING (ROBUST + SAFE)
+# =================================================
+def prepare_live_features(row: pd.Series) -> dict:
+    passenger_count = int(row.get("passenger_count", 0))
+    external_temp = float(row.get("external_temp", 30))
+    internal_temp = float(row.get("internal_temp", 24))
+    humidity = float(row.get("humidity", 50))
+    energy_kwh = float(row.get("energy_kwh", 0))
+
+    # Normalized features
+    occupancy_density = min(passenger_count / 5000, 1.0)
+    traffic_score = occupancy_density
+    weather_load = min(max((external_temp - 20) / 15, 0), 1)
+
+    terminal_load_index = (
+        0.4 * occupancy_density +
+        0.3 * traffic_score +
+        0.3 * weather_load
+    )
+
+    # ✅ CO₂ estimation (sensor-less MVP)
+    co2_ppm = int(420 + occupancy_density * 900)
+
     return {
-        "occupancy_density": row["occupancy_density"],
-        "traffic_score": row["traffic_score"],
-        "weather_load": row["weather_load"],
-        "terminal_load_index": row["terminal_load_index"],
-        "co2": int(400 + row["traffic_score"] * 800),
-        "temperature": round(24 + row["weather_load"], 1),
-        "humidity": 55   # ✅ REQUIRED by safety_constraints
+        # --- ML features ---
+        "occupancy_density": occupancy_density,
+        "traffic_score": traffic_score,
+        "weather_load": weather_load,
+        "terminal_load_index": terminal_load_index,
+
+        # --- Live metrics ---
+        "energy_kw": energy_kwh,
+        "temperature": internal_temp,
+        "humidity": humidity,
+        "occupancy": passenger_count,
+        "co2": co2_ppm,
+        "zone": row.get("terminal_area", "T1")
     }
 
+# =================================================
+# SESSION STATE (LIVE SIMULATION)
+# =================================================
+if "row_idx" not in st.session_state:
+    st.session_state.row_idx = 0
 
+row = df.iloc[st.session_state.row_idx]
+data = prepare_live_features(row)
 
+# =================================================
+# AI PREDICTION (MODEL ONLY HERE)
+# =================================================
+features_df = pd.DataFrame([{
+    "occupancy_density": data["occupancy_density"],
+    "traffic_score": data["traffic_score"],
+    "weather_load": data["weather_load"],
+    "terminal_load_index": data["terminal_load_index"]
+}])
 
-def extract_live_data_from_row(row):
-    return {
-        "occupancy": int(row["occupancy_density"] * 5000),
-        "temperature": round(24 + row["weather_load"], 1),
-        "humidity": 55,
-        "energy_kw": round(row["energy_kw"], 2),
-        "zone": "T1"
-    }
+predicted_energy = float(model.predict(features_df)[0])
 
+# =================================================
+# KPI CALCULATIONS
+# =================================================
+energy_kpi = calculate_energy_metrics(data["energy_kw"])
+comfort = evaluate_comfort_metrics(
+    data["temperature"],
+    data["humidity"]
+)
 
-# -------------------------------------------------
-# DASHBOARD RENDER FUNCTION
-# -------------------------------------------------
-def display_dashboard(data: dict, features: dict):
-    decision = generate_decision(features)
+decision = generate_decision(data)
+alerts = generate_alerts(data)
 
-    with placeholder.container():
-        col1, col2, col3 = st.columns(3)
-        col1.metric("👥 Occupancy", data["occupancy"])
-        col2.metric("🌡️ Temperature (°C)", data["temperature"])
-        st.divider()
+# =================================================
+# DASHBOARD UI
+# =================================================
+col1, col2, col3 = st.columns(3)
+col1.metric("👥 Occupancy", data["occupancy"])
+col2.metric("🌡️ Temperature (°C)", round(data["temperature"], 1))
+col3.metric("💧 Humidity (%)", round(data["humidity"], 1))
 
-        energy_kpi = calculate_energy_metrics(data["energy_kw"])
-        comfort = evaluate_comfort_metrics(
-            data["temperature"],
-            data["humidity"]
-        )
+st.divider()
 
-        col4, col5, col6 = st.columns(3)
-        col4.metric("⚡ Energy (kW)", data["energy_kw"])
-        col5.metric(
-            "💰 Estimated Savings (%)",
-            energy_kpi["estimated_savings_percent"]
-        )
-        col6.metric("🙂 Comfort Status", comfort["overall_comfort"])
+col4, col5, col6 = st.columns(3)
+col4.metric("⚡ Energy (kW)", round(data["energy_kw"], 2))
+col5.metric("🔮 Predicted Energy (kW)", round(predicted_energy, 2))
+col6.metric("🙂 Comfort Status", comfort["overall_comfort"])
 
-        st.divider()
+st.divider()
 
-        st.subheader("🤖 AI Decision")
-        st.info(f"{decision['action']} — {decision['reason']}")
+st.subheader("🤖 AI Decision")
+st.info(f"{decision['action']} — {decision['reason']}")
 
-        if AUTO_MODE:
-            result = execute_control(decision, data["zone"])
-            st.success(f"Control Status: {result['status']}")
-        else:
-            st.warning("Auto control disabled (Manual review mode)")
+st.subheader("🚨 Alerts")
+if alerts:
+    for alert in alerts:
+        st.warning(alert)
+else:
+    st.success("✅ No alerts")
 
-        alerts = generate_alerts(data)
-        if alerts:
-            st.subheader("🚨 Alerts")
-            for alert in alerts:
-                st.error(alert)
-
-
-# -------------------------------------------------
-# CSV → LIVE STREAM LOOP
-# -------------------------------------------------
-for _, row in csv_data.iterrows():
-    live_data = extract_live_data_from_row(row)
-    features = extract_features_from_row(row)
-
-    display_dashboard(live_data, features)
-
-    time.sleep(3)
+# =================================================
+# AUTO REFRESH (STREAMLIT SAFE)
+# =================================================
+time.sleep(3)
+st.session_state.row_idx = (st.session_state.row_idx + 1) % len(df)
+st.rerun()

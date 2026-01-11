@@ -1,53 +1,51 @@
 """
 Decision Engine (MVP-2)
 
-Combines:
-- Real-time features
-- ML predictions
-- Safety constraints
-- Automated control decision
+Purpose:
+- Apply safety constraints
+- Apply rule-based operational logic
+- NO ML prediction here (handled in dashboard)
 """
 
 from constraints.safety_constraints import enforce_safety_constraints
-from models.energy_forecast.predict import predict_energy_demand
-from config.constants import (
-    MAX_TEMPERATURE_C,
-    MAX_CO2_PPM,
-    BASELINE_ENERGY_KW
-)
 
 
-def generate_decision(features: dict) -> dict:
+def generate_decision(live_data: dict) -> dict:
     """
-    Generate automated energy control decision
+    Generate control decision based on live data
     """
 
-    safety = enforce_safety_constraints(features)
+    # -------------------------------------------------
+    # SAFETY GATE (MANDATORY)
+    # -------------------------------------------------
+    safety = enforce_safety_constraints(live_data)
 
     if not safety["safe_to_proceed"]:
         return {
-            "action": "MAINTAIN_CURRENT_SETTINGS",
-            "reason": "Safety constraint violation",
-            "safe": False
+            "action": "HOLD",
+            "reason": "Safety constraints violated",
+            "details": safety
         }
 
-    predicted_energy = predict_energy_demand(features)
+    # -------------------------------------------------
+    # RULE-BASED LOGIC (MVP)
+    # -------------------------------------------------
+    occupancy = live_data.get("occupancy", 0)
+    temperature = live_data.get("temperature", 24)
 
-    if features["co2"] > MAX_CO2_PPM:
-        action = "INCREASE_VENTILATION"
-        reason = "High CO₂ detected"
+    if occupancy < 500:
+        return {
+            "action": "REDUCE_HVAC_LOAD",
+            "reason": "Low occupancy detected"
+        }
 
-    elif predicted_energy > BASELINE_ENERGY_KW:
-        action = "REDUCE_HVAC_LOAD"
-        reason = "Predicted energy demand is high"
-
-    else:
-        action = "OPTIMIZE_INCREMENTALLY"
-        reason = "Stable conditions"
+    if temperature > 26:
+        return {
+            "action": "INCREASE_COOLING",
+            "reason": "High temperature detected"
+        }
 
     return {
-        "action": action,
-        "reason": reason,
-        "safe": True,
-        "predicted_energy_kw": predicted_energy
+        "action": "MAINTAIN",
+        "reason": "Conditions optimal"
     }

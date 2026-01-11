@@ -1,6 +1,7 @@
 """
 Monitoring module initializer – MVP 1
 """
+from .alerts import generate_alerts
 
 from .energy_metrics import calculate_energy_metrics
 from .comfort_metrics import evaluate_comfort_metrics
